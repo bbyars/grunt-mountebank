@@ -5,27 +5,21 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         mochaTest: {
-            unit: {
-                options: {
-                    reporter: 'spec'
-                },
-                src: ['test/**/*.js']
+            options: {
+                reporter: 'spec'
             },
-            coverage: {
-                options: {
-                    reporter: 'html-cov',
-                    quiet: true,
-                    captureFile: 'coverage.html',
-                    require: 'coverage/blanket'
-                },
-                src: ['test/**/*.js']
+            start: {
+                src: ['test/startTest.js']
+            },
+            stop: {
+                src: ['test/stopTest.js']
             }
         },
         jshint: {
             all: [
                 'Gruntfile.js',
-                'tasks/*.js',
-                '<%= nodeunit.tests %>'
+                'tasks/**/*.js',
+                'test/**/*.js'
             ],
             options: {
                 node: true,
@@ -47,39 +41,25 @@ module.exports = function (grunt) {
                 trailing: true,
                 maxparams: 4,
                 maxdepth: 3,
-                maxcomplexity: 5
+                maxcomplexity: 6
             }
-        },
-        clean: {
-            tests: ['tmp']
         },
         mb: {
-            default_options: {
-                options: {
-                },
-                files: {
-                    'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
-                }
+            options: {
+                path: 'node_modules/.bin/mb'
             },
-            custom_options: {
-                options: {
-                    separator: ': ',
-                    punctuation: ' !!!'
-                },
-                files: {
-                    'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
-                }
-            }
-        },
+            start: ['--port', 2525, '--allowInjection', '--mock', '--debug', '--pidfile', 'mb-grunt.pid'],
+            restart: ['--port', 2525, '--allowInjection', '--mock', '--debug', '--pidfile', 'mb-grunt.pid'],
+            stop: ['--pidfile', 'mb-grunt.pid']
+        }
     });
 
     grunt.loadTasks('tasks');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-mocha-test');
 
-    grunt.registerTask('test', ['clean', 'mb:start', 'mocha']);
+    grunt.registerTask('test', ['try', 'mb:start', 'mochaTest:start', 'finally',
+                                'mb:stop', 'checkForErrors', 'mochaTest:stop']);
 
-    // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'test']);
 };

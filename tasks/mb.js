@@ -56,13 +56,14 @@ module.exports = function (grunt) {
             args = [command].concat(this.data),
             options = this.options({
                 path: 'mb'
-            });
+            }),
+            mbPath = process.env.MB_EXECUTABLE || options.path; // the mountebank build needs to dynamically replace the path
 
         if (command === 'start' || command === 'restart') {
-            start(options.path, args, done);
+            start(mbPath, args, done);
         }
         else if (command === 'stop') {
-            stop(options.path, args, done);
+            stop(mbPath, args, done);
         }
         else {
             grunt.log.error('Unrecognized mb target.  Valid targets are start, stop, and restart');

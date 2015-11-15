@@ -1,7 +1,7 @@
 {
   "name": "grunt-mountebank",
   "description": "mountebank lifecycle management for grunt",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "homepage": "https://github.com/bbyars/mountebank-grunt",
   "author": "Brandon Byars <brandon.byars@gmail.com>",
   "repository": {

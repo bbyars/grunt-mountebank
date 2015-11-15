@@ -1,6 +1,6 @@
 'use strict';
 
-var fs = require('fs-extra'),
+var fs = require('fs'),
     thisPackage = require('./package.json'),
     version = process.env.MB_GRUNT_VERSION || thisPackage.version;
 

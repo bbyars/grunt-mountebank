@@ -1,7 +1,7 @@
 'use strict';
 
-var fs = require('fs'),
-    thisPackage = require('../package.json'),
+var fs = require('fs-extra'),
+    thisPackage = require('./package.json'),
     version = process.env.MB_GRUNT_VERSION || thisPackage.version;
 
 module.exports = function (grunt) {
@@ -64,21 +64,17 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
-    function failTask (task) {
-        return function (exitCode) {
-            grunt.warn(task + ' failed', exitCode);
-        };
-    }
-
     grunt.registerTask('dist', 'Create distribution directory', function () {
-        fs.mkdirSync('dist');
+        if (!fs.existsSync('dist')) {
+            fs.mkdirSync('dist');
+        }
         ['tasks', 'package.json', 'npm-shrinkwrap.json', 'README.md', 'LICENSE'].forEach(function (source) {
             fs.copySync(source, 'dist/' + source);
         });
     });
 
     grunt.registerTask('version', 'Set the version number', function () {
-        var newPackage = require('../dist/package.json');
+        var newPackage = require('./dist/package.json');
 
         newPackage.version = version;
         console.log('Using version ' + version);
@@ -87,6 +83,5 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test', ['try', 'mb:start', 'mochaTest:start', 'finally',
                                 'mb:stop', 'checkForErrors', 'mochaTest:stop']);
-    grunt.registerTask('travis', ['jshint', 'dist', 'version', 'test']);
-    grunt.registerTask('default', ['jshint', 'test']);
+    grunt.registerTask('default', ['jshint', 'clean', 'dist', 'version', 'test']);
 };

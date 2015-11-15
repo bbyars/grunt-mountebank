@@ -19,6 +19,7 @@
     "test": "grunt test"
   },
   "devDependencies": {
+    "fs-extra": "^0.26.2",
     "grunt": "~0.4.5",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "^0.7.0",

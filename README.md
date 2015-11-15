@@ -40,8 +40,8 @@ grunt.initConfig({
 ```
 
 If you leave off the options, the plugin assumes the path to `mb` is simply `mb` (as it is if you
-`npm install -g mountebank`).  The `start`, `stop`, and `restart` target arrays define the command
-line arguments passed to each of those commands.
+`npm install -g mountebank`).  The `start`, `stop`, and `restart` target arrays define the [command
+line arguments](http://www.mbtest.org/docs/commandLine) passed to each of those commands.
 
 Because you likely want to guarantee that you stop mountebank even if tests that depend on it fail,
 this plugin also adds a `try`, `finally`, and `checkForErrors` task.  An example test run might look

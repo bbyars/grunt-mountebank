@@ -1,0 +1,41 @@
+{
+  "name": "grunt-mountebank",
+  "description": "mountebank lifecycle management within grunt",
+  "version": "0.1.0",
+  "homepage": "https://github.com/bbyars/mountebank-grunt",
+  "author": {
+    "name": "Brandon Byars",
+    "email": "brandon.byars@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bbyars/mountebank-grunt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bbyars/mountebank-grunt/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/bbyars/mountebank-grunt/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "^0.9.2",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-nodeunit": "^0.3.3",
+    "grunt": "~0.4.5"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.5"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}

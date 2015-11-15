@@ -10,7 +10,7 @@ platform:
 
 environment:
   global:
-    NODE_VERSION=5.0
+    NODE_VERSION: 5.0
 
 cache:
   - node_modules -> package.json

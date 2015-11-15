@@ -22,23 +22,35 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-mountebank');
 ```
 
-## The "mountebank" task
+## Grunt Configuration
 
-### Overview
 In your project's Gruntfile, add a section named `mb` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
   mb: {
     options: {
-      // Task-specific options go here.
+      path: 'node_modules/.bin/mb'
     },
-    stop: {
-      // Target-specific file lists and/or options go here.
-    },
-    start: {
-      // Target-specific
-    }
+    start: ['--port', 2525, '--allowInjection', '--mock', '--debug', '--pidfile', 'mb-grunt.pid'],
+    restart: ['--port', 2525, '--allowInjection', '--mock', '--debug', '--pidfile', 'mb-grunt.pid'],
+    stop: ['--pidfile', 'mb-grunt.pid']
   },
 });
 ```
+
+If you leave off the options, the plugin assumes the path to `mb` is simply `mb` (as it is if you
+`npm install -g mountebank`).  The `start`, `stop`, and `restart` target arrays define the command
+line arguments passed to each of those commands.
+
+Because you likely want to guarantee that you stop mountebank even if tests that depend on it fail,
+this plugin also adds a `try`, `finally`, and `checkForErrors` task.  An example test run might look
+something like this:
+
+```js
+grunt.registerTask('test', ['mb:start', 'try', 'mochaTest', 'finally', 'mb:stop', 'checkForErrors']);
+```
+
+The `try` task collects failures but instructs grunt to continue to the next task.  The `finally` task
+restores the fail-on-error behavior and helps guarantee that the next task runs.  `checkForErrors`
+inspects the failures collected during the `try` section and fails the build if necessary.

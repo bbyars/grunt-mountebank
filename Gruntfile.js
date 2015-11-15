@@ -48,7 +48,6 @@ module.exports = function (grunt) {
                 maxcomplexity: 6
             }
         },
-        clean: ['dist'],
         mb: {
             options: {
                 path: 'node_modules/.bin/mb'
@@ -64,24 +63,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
-    grunt.registerTask('dist', 'Create distribution directory', function () {
-        if (!fs.existsSync('dist')) {
-            fs.mkdirSync('dist');
-        }
-        ['tasks', 'package.json', 'npm-shrinkwrap.json', 'README.md', 'LICENSE'].forEach(function (source) {
-            fs.copySync(source, 'dist/' + source);
-        });
-    });
-
     grunt.registerTask('version', 'Set the version number', function () {
-        var newPackage = require('./dist/package.json');
+        var newPackage = require('./package.json');
 
         newPackage.version = version;
         console.log('Using version ' + version);
-        fs.writeFileSync('./dist/package.json', JSON.stringify(newPackage, null, 2) + '\n');
+        fs.writeFileSync('./package.json', JSON.stringify(newPackage, null, 2) + '\n');
     });
 
     grunt.registerTask('test', ['try', 'mb:start', 'mochaTest:start', 'finally',
                                 'mb:stop', 'checkForErrors', 'mochaTest:stop']);
-    grunt.registerTask('default', ['jshint', 'clean', 'dist', 'version', 'test']);
+    grunt.registerTask('default', ['jshint', 'version', 'test']);
 };

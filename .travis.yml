@@ -4,6 +4,7 @@ node_js:
 
 env:
   global:
+    - MB_GRUNT_TEST=true
     # NPM_API_KEY
     - secure: "IEfctrje4QulHyavIMZYnxljU4XvpMnLR8TzCU8ozeQbdoIOq3/WqBl53Mou2Ie65YAbcMNfLmAvXWgNiKR2jE+K9tOyXsIj+Wbrr4b6X1FHqjkTLw8OCcLFD7kO/aptEOzsTZWbpJKao3mtcshHWWiFeeRDANYK6QMSYwoVNLc="
 

@@ -1,6 +1,10 @@
 language: javascript
 
+install:
+  - npm install -g npm
+
 script:
+  - npm -v
   - ./build
 
 deploy:

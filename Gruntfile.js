@@ -61,7 +61,6 @@ module.exports = function (grunt) {
     grunt.loadTasks('tasks');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-test');
-    grunt.loadNpmTasks('grunt-contrib-clean');
 
     grunt.registerTask('version', 'Set the version number', function () {
         var newPackage = require('./package.json');

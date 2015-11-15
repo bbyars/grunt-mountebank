@@ -4,4 +4,7 @@ set -e
 
 if [ -n "$NPM_API_KEY" ]; then
     dpl --provider=npm --email=brandon.byars@gmail.com --api-key=$NPM_API_KEY --skip-cleanup
+else
+    echo 'No npm key, not publishing'
+    env |cut -f1 -d=
 fi

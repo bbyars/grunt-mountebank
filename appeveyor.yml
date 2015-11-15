@@ -21,8 +21,8 @@ init:
 install:
   - ps: Install-Product node $env:NODE_VERSION
 
-build_script:
+test_script:
   - node --version && npm --version
   - build.bat
 
-test: off
+build: off

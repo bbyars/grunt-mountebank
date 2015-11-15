@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+
+if [ -n "$NPM_API_KEY" ]; then
+    dpl --provider=npm --email=brandon.byars@gmail.com --api-key=$NPM_API_KEY --skip-cleanup
+fi

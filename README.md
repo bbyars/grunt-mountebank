@@ -30,7 +30,8 @@ In your project's Gruntfile, add a section named `mb` to the data object passed 
 grunt.initConfig({
   mb: {
     options: {
-      path: 'node_modules/.bin/mb'
+      path: 'node_modules/.bin/mb',
+      pathEnvironmentVariable: 'MB_EXECUTABLE'
     },
     start: ['--port', 2525, '--allowInjection', '--mock', '--debug', '--pidfile', 'mb-grunt.pid'],
     restart: ['--port', 2525, '--allowInjection', '--mock', '--debug', '--pidfile', 'mb-grunt.pid'],
@@ -40,7 +41,12 @@ grunt.initConfig({
 ```
 
 If you leave off the options, the plugin assumes the path to `mb` is simply `mb` (as it is if you
-`npm install -g mountebank`).  The `start`, `stop`, and `restart` target arrays define the [command
+`npm install -g mountebank`).  The `pathEnvironmentVariable` allows dynamic substitution of the
+path to support niche cases where you won't know the path until other tasks run (the mountebank
+build uses this to test various packaging options).  You probably won't need it, but if both
+`path` and `pathEnvironmentVariable` are set, `pathEnvironmentVariable` takes precedence.
+
+The `start`, `stop`, and `restart` target arrays define the [command
 line arguments](http://www.mbtest.org/docs/commandLine) passed to each of those commands.
 
 Because you likely want to guarantee that you stop mountebank even if tests that depend on it fail,

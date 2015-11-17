@@ -2,6 +2,7 @@
 
 var spawn = require('child_process').spawn,
     exec = require('child_process').exec,
+    fs = require('fs'),
     os = require('os');
 
 function isWindows () {
@@ -11,22 +12,28 @@ function isWindows () {
 module.exports = function (grunt) {
 
     function start (mbPath, args, done) {
-        var mb;
+        var command = mbPath,
+            mb;
 
-        if (isWindows) {
+        if (!fs.existsSync(mbPath)) {
+            grunt.fail.warn('No such file: ' + mbPath);
+        }
+
+        if (isWindows()) {
             args.unshift(mbPath);
 
             if (mbPath.indexOf('.cmd') >= 0) {
+                // Accommodate the self-contained Windows zip files that ship with mountebank
                 args.unshift('/c');
-                mb = spawn('cmd', args);
+                command = 'cmd';
             }
             else {
-                mb = spawn('node', args);
+                command = 'node';
             }
         }
-        else {
-            mb = spawn(mbPath, args);
-        }
+
+        grunt.log.writeln(command + ' ' + args.join(' '));
+        mb = spawn(command, args);
 
         mb.on('error', function (error) {
             throw error;
@@ -55,9 +62,10 @@ module.exports = function (grunt) {
             command = this.target || 'start',
             args = [command].concat(this.data),
             options = this.options({
-                path: 'mb'
+                path: 'mb',
+                pathEnvironmentVariable: ''
             }),
-            mbPath = process.env.MB_EXECUTABLE || options.path; // the mountebank build needs to dynamically replace the path
+            mbPath = process.env[options.pathEnvironmentVariable] || options.path;
 
         if (command === 'start' || command === 'restart') {
             start(mbPath, args, done);
@@ -66,7 +74,7 @@ module.exports = function (grunt) {
             stop(mbPath, args, done);
         }
         else {
-            grunt.log.error('Unrecognized mb target.  Valid targets are start, stop, and restart');
+            grunt.fail.warn('Unrecognized mb target.  Valid targets are start, stop, and restart');
         }
     });
 };

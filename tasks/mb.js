@@ -2,7 +2,6 @@
 
 var spawn = require('child_process').spawn,
     exec = require('child_process').exec,
-    fs = require('fs'),
     os = require('os');
 
 function isWindows () {
@@ -14,10 +13,6 @@ module.exports = function (grunt) {
     function start (mbPath, args, done) {
         var command = mbPath,
             mb;
-
-        if (!fs.existsSync(mbPath)) {
-            grunt.fail.warn('No such file: ' + mbPath);
-        }
 
         if (isWindows()) {
             args.unshift(mbPath);
@@ -36,7 +31,7 @@ module.exports = function (grunt) {
         mb = spawn(command, args);
 
         mb.on('error', function (error) {
-            throw error;
+            grunt.fail.warn(error);
         });
         mb.stderr.on('data', function (data) {
             grunt.log.error(data.toString('utf8'));
@@ -52,15 +47,16 @@ module.exports = function (grunt) {
     function stop (mbPath, args, done) {
         var command = mbPath + ' ' + args.join(' ');
 
-        if (!fs.existsSync(mbPath)) {
-            grunt.fail.warn('No such file: ' + mbPath);
-        }
-
         if (isWindows() && mbPath.indexOf('.cmd') < 0) {
             command = 'node ' + command;
         }
         grunt.log.writeln(command);
-        exec(command, done);
+        exec(command, function (error, stdout, stderr) {
+            if (error) { grunt.fail.warn(error); }
+            if (stdout) { grunt.log.writeln(stdout); }
+            if (stderr) { grunt.log.error(stderr); }
+            done();
+        });
     }
 
     grunt.registerMultiTask('mb', 'start or stop mountebank', function () {

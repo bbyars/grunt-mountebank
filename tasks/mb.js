@@ -51,7 +51,7 @@ module.exports = function (grunt) {
 
     function stop (mbPath, args, done) {
         var command = mbPath + ' ' + args.join(' ');
-        if (isWindows && mbPath.indexOf('.cmd') < 0) {
+        if (isWindows() && mbPath.indexOf('.cmd') < 0) {
             command = 'node ' + command;
         }
         exec(command, done);

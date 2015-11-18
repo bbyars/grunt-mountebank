@@ -51,9 +51,15 @@ module.exports = function (grunt) {
 
     function stop (mbPath, args, done) {
         var command = mbPath + ' ' + args.join(' ');
+
+        if (!fs.existsSync(mbPath)) {
+            grunt.fail.warn('No such file: ' + mbPath);
+        }
+
         if (isWindows() && mbPath.indexOf('.cmd') < 0) {
             command = 'node ' + command;
         }
+        grunt.log.writeln(command);
         exec(command, done);
     }
 

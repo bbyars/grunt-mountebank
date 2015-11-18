@@ -17,7 +17,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('checkForErrors', 'fail build if any steps executed in a try block failed', function () {
-        if(grunt.config('mb:warning-issued')) {
+        if (grunt.config('mb:warning-issued')) {
             grunt.fail.warn('Failing from previous errors');
         }
     });

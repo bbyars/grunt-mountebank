@@ -5,7 +5,11 @@ var fs = require('fs'),
     version = process.env.MB_GRUNT_VERSION || thisPackage.version;
 
 module.exports = function (grunt) {
-    // Project configuration.
+
+    grunt.loadTasks('tasks');
+    grunt.loadNpmTasks('grunt-mocha-test');
+    grunt.loadNpmTasks('grunt-eslint');
+
     grunt.initConfig({
         mochaTest: {
             options: {
@@ -18,34 +22,12 @@ module.exports = function (grunt) {
                 src: ['test/stopTest.js']
             }
         },
-        jshint: {
-            all: [
+        eslint: {
+            target: [
                 'Gruntfile.js',
                 'tasks/**/*.js',
                 'test/**/*.js'
-            ],
-            options: {
-                node: true,
-                globals: {
-                    describe: false,
-                    it: false,
-                    before: false,
-                    beforeEach: false,
-                    after: false,
-                    afterEach: false
-                },
-                newcap: false,
-                camelcase: true,
-                curly: true,
-                eqeqeq: true,
-                latedef: true,
-                undef: true,
-                unused: true,
-                trailing: true,
-                maxparams: 4,
-                maxdepth: 3,
-                maxcomplexity: 6
-            }
+            ]
         },
         mb: {
             options: {
@@ -58,10 +40,6 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.loadTasks('tasks');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-mocha-test');
-
     grunt.registerTask('version', 'Set the version number', function () {
         var newPackage = require('./package.json');
 
@@ -71,7 +49,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('testFail', 'Verify a failed mb target fails the build', function () {
-        process.env.MB_EXECUTABLE='invalid-path';
+        process.env.MB_EXECUTABLE = 'invalid-path';
         grunt.task.run('mb:restart');
         // Verify non-0 exit code manually
     });
@@ -86,5 +64,5 @@ module.exports = function (grunt) {
     // Can't run as part of same build because grunt won't run the same task twice
     grunt.registerTask('test:dynamicPath', ['changePath', 'test']);
 
-    grunt.registerTask('default', ['jshint', 'version', 'test']);
+    grunt.registerTask('default', ['eslint', 'version', 'test']);
 };

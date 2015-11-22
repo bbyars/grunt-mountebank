@@ -60,3 +60,9 @@ grunt.registerTask('test', ['mb:start', 'try', 'mochaTest', 'finally', 'mb:stop'
 The `try` task collects failures but instructs grunt to continue to the next task.  The `finally` task
 restores the fail-on-error behavior and helps guarantee that the next task runs.  `checkForErrors`
 inspects the failures collected during the `try` section and fails the build if necessary.
+
+## mountebank Initialization
+
+As of mountebank v1.4.3, this task guarantees that `mb` is fully initialized before returning.
+Prior to mountebank v1.4.3, you may have to add a small delay in the next task if it expects
+`mb` to be initialized.  This is particularly true if you use the `--configfile` options.

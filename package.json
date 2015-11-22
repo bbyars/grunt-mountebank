@@ -1,7 +1,7 @@
 {
   "name": "grunt-mountebank",
   "description": "mountebank lifecycle management for grunt",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/bbyars/grunt-mountebank",
   "author": "Brandon Byars <brandon.byars@gmail.com>",
   "repository": {
@@ -24,7 +24,7 @@
     "grunt-eslint": "^17.3.1",
     "grunt-mocha-test": "~0.12.1",
     "mocha": "~2.3.1",
-    "mountebank": "^1.4.2",
+    "mountebank": "1.4.3-beta.1036",
     "request": "^2.65.0"
   },
   "peerDependencies": {

@@ -12,15 +12,10 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         mochaTest: {
-            options: {
-                reporter: 'spec'
-            },
-            start: {
-                src: ['test/startTest.js']
-            },
-            stop: {
-                src: ['test/stopTest.js']
-            }
+            options: { reporter: 'spec' },
+            start: { src: ['test/startTest.js'] },
+            stop: { src: ['test/stopTest.js'] },
+            fail: { src: ['test/failTest.js'] }
         },
         eslint: {
             target: [
@@ -58,8 +53,8 @@ module.exports = function (grunt) {
         process.env.MB_EXECUTABLE = 'node_modules/mountebank/bin/mb';
     });
 
-    grunt.registerTask('test', ['try', 'mb:start', 'mochaTest:start', 'finally',
-                                'mb:stop', 'checkForErrors', 'mochaTest:stop']);
+    grunt.registerTask('test', ['try', 'mb:restart', 'mochaTest:start', 'finally',
+                                'mb:stop', 'checkForErrors', 'mochaTest:stop', 'mochaTest:fail']);
 
     // Can't run as part of same build because grunt won't run the same task twice
     grunt.registerTask('test:dynamicPath', ['changePath', 'test']);

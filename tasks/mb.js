@@ -28,10 +28,6 @@ module.exports = function (grunt) {
         waitFor(function () { return fs.existsSync(pidfile); }, callback);
     }
 
-    function whenFullyShutdown (pidfile, callback) {
-        waitFor(function () { return !fs.existsSync(pidfile); }, callback);
-    }
-
     function pidfileFor (args) {
         var pidfileIndex = args.indexOf('--pidfile');
         return pidfileIndex >= 0 && pidfileIndex < args.length - 1 ? args[pidfileIndex + 1] : 'mb.pid';
@@ -79,7 +75,7 @@ module.exports = function (grunt) {
             if (error) { grunt.fail.warn(error); }
             if (stdout) { grunt.log.writeln(stdout); }
             if (stderr) { grunt.log.error(stderr); }
-            whenFullyShutdown(pidfileFor(args), done);
+            done();
         });
     }
 

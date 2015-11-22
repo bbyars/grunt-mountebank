@@ -29,8 +29,8 @@ module.exports = function (grunt) {
                 path: 'node_modules/.bin/mb',
                 pathEnvironmentVariable: 'MB_EXECUTABLE'
             },
-            start: ['--port', 2525, '--allowInjection', '--mock', '--debug', '--pidfile', 'mb-grunt.pid'],
-            restart: ['--port', 2525, '--allowInjection', '--mock', '--debug', '--pidfile', 'mb-grunt.pid'],
+            start: ['--port', 7777, '--allowInjection', '--mock', '--debug', '--pidfile', 'mb-grunt.pid'],
+            restart: ['--port', 7777, '--allowInjection', '--mock', '--debug', '--pidfile', 'mb-grunt.pid'],
             stop: ['--pidfile', 'mb-grunt.pid']
         }
     });

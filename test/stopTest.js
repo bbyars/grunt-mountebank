@@ -5,7 +5,7 @@ var assert = require('assert'),
 
 describe('The stop target', function () {
     it('should correctly start mountebank', function (done) {
-        request('http://localhost:2525/', function (error) {
+        request('http://localhost:7777/', function (error) {
             if (!error || error.code !== 'ECONNREFUSED') {
                 assert.fail('Did not stop correctly');
             }

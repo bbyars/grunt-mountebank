@@ -5,7 +5,7 @@ var assert = require('assert'),
 
 describe('The start target', function () {
     it('should correctly start mountebank', function (done) {
-        request('http://localhost:2525/', function (error, response, body) {
+        request('http://localhost:7777/', function (error, response, body) {
             if (error) {
                 assert.fail(error);
             }

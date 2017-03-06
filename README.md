@@ -1,5 +1,7 @@
 # grunt-mountebank
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/bbyars/grunt-mountebank.svg)](https://greenkeeper.io/)
+
 [mountebank](http://www.mbtest.org) lifecycle management for grunt
 
 ## Getting Started

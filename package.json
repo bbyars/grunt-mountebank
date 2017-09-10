@@ -23,7 +23,7 @@
     "grunt-cli": "^1.2.0",
     "grunt-eslint": "^19.0.0",
     "grunt-mocha-test": "~0.13.2",
-    "mocha": "~3.2.0",
+    "mocha": "~3.5.1",
     "mountebank": ">=1.4.3",
     "request": "^2.65.0"
   },

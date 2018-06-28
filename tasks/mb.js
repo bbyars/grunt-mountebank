@@ -37,7 +37,7 @@ module.exports = function (grunt) {
         var command = mbPath,
             mb;
 
-        if (isWindows()) {
+        if (isWindows() && command !== 'mb') {
             args.unshift(mbPath);
 
             if (mbPath.indexOf('.cmd') >= 0) {

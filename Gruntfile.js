@@ -59,5 +59,5 @@ module.exports = function (grunt) {
     // Can't run as part of same build because grunt won't run the same task twice
     grunt.registerTask('test:dynamicPath', ['changePath', 'test']);
 
-    grunt.registerTask('default', ['eslint', 'version', 'test']);
+    grunt.registerTask('default', ['version', 'test']);
 };

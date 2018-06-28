@@ -24,8 +24,8 @@
     "grunt-eslint": "^19.0.0",
     "grunt-mocha-test": "~0.13.2",
     "mocha": "~3.2.0",
-    "mountebank": ">=1.4.3",
-    "request": "^2.65.0"
+    "mountebank": "^1.14.1",
+    "request": "^2.87.0"
   },
   "peerDependencies": {
     "grunt": ">=0.4.0"

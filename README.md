@@ -33,7 +33,8 @@ grunt.initConfig({
   mb: {
     options: {
       path: 'node_modules/.bin/mb',
-      pathEnvironmentVariable: 'MB_EXECUTABLE'
+      pathEnvironmentVariable: 'MB_EXECUTABLE',
+      showLogs: true
     },
     start: ['--port', 2525, '--allowInjection', '--mock', '--debug', '--pidfile', 'mb-grunt.pid'],
     restart: ['--port', 2525, '--allowInjection', '--mock', '--debug', '--pidfile', 'mb-grunt.pid'],
@@ -47,6 +48,8 @@ If you leave off the options, the plugin assumes the path to `mb` is simply `mb`
 path to support niche cases where you won't know the path until other tasks run (the mountebank
 build uses this to test various packaging options).  You probably won't need it, but if both
 `path` and `pathEnvironmentVariable` are set, `pathEnvironmentVariable` takes precedence.
+
+Leave `showLogs` off or set it to `false` to prevent piping the mountebank logs to the console.
 
 The `start`, `stop`, and `restart` target arrays define the [command
 line arguments](http://www.mbtest.org/docs/commandLine) passed to each of those commands.

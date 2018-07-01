@@ -33,7 +33,7 @@ module.exports = function (grunt) {
         return pidfileIndex >= 0 && pidfileIndex < args.length - 1 ? args[pidfileIndex + 1] : 'mb.pid';
     }
 
-    function start (mbPath, args, done) {
+    function start (mbPath, args, showLogs, done) {
         var command = mbPath,
             mb;
 
@@ -55,26 +55,33 @@ module.exports = function (grunt) {
         whenFullyInitialized(pidfileFor(args), done);
 
         grunt.log.writeln(command + ' ' + args.join(' '));
-        mb = spawn(command, args);
+        mb = spawn(command, args, { env: process.env });
         mb.on('error', function (error) {
             grunt.fail.warn(error);
         });
         mb.stderr.on('data', function (data) {
             grunt.log.error(data.toString('utf8'));
         });
+        if (showLogs) {
+            mb.stdout.on('data', function (data) {
+                grunt.log.write(data.toString('utf8'));
+            });
+        }
     }
 
-    function stop (mbPath, args, done) {
+    function stop (mbPath, args, showLogs, done) {
         var command = mbPath + ' ' + args.join(' ');
 
-        if (isWindows() && mbPath.indexOf('.cmd') < 0) {
+        if (isWindows() && mbPath !== 'mb' && mbPath.indexOf('.cmd') < 0) {
             command = 'node ' + command;
         }
         grunt.log.writeln(command);
         exec(command, function (error, stdout, stderr) {
             if (error) { grunt.fail.warn(error); }
-            if (stdout) { grunt.log.writeln(stdout); }
             if (stderr) { grunt.log.error(stderr); }
+            if (showLogs && stdout) {
+                grunt.log.writeln(stdout);
+            }
             done();
         });
     }
@@ -85,15 +92,16 @@ module.exports = function (grunt) {
             args = [command].concat(this.data),
             options = this.options({
                 path: 'mb',
-                pathEnvironmentVariable: ''
+                pathEnvironmentVariable: '',
+                showLogs: false
             }),
             mbPath = process.env[options.pathEnvironmentVariable] || options.path;
 
         if (command === 'start' || command === 'restart') {
-            start(mbPath, args, done);
+            start(mbPath, args, options.showLogs, done);
         }
         else if (command === 'stop') {
-            stop(mbPath, args, done);
+            stop(mbPath, args, options.showLogs, done);
         }
         else {
             grunt.fail.warn('Unrecognized mb target.  Valid targets are start, stop, and restart');

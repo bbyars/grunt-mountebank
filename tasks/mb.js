@@ -97,14 +97,12 @@ module.exports = function (grunt) {
             }),
             mbPath = process.env[options.pathEnvironmentVariable] || options.path;
 
-        if (command === 'start' || command === 'restart') {
-            start(mbPath, args, options.showLogs, done);
-        }
-        else if (command === 'stop') {
+        if (command === 'stop') {
             stop(mbPath, args, options.showLogs, done);
         }
         else {
-            grunt.fail.warn('Unrecognized mb target.  Valid targets are start, stop, and restart');
+            // Allow custom target names with different configurations
+            start(mbPath, args, options.showLogs, done);
         }
     });
 };

@@ -24,7 +24,7 @@
     "grunt-eslint": "^19.0.0",
     "grunt-mocha-test": "~0.13.2",
     "mocha": "~3.2.0",
-    "mountebank": "^1.14.1",
+    "mountebank": "^2.7.0",
     "request": "^2.87.0"
   },
   "peerDependencies": {
